@@ -9,13 +9,18 @@ function DrumElement(source, triggeredKey, keyCode) {
     this.source = source;
     this.triggeredKey = triggeredKey;
     this.keyCode = keyCode;
+    this.audio = {};
 }
 
 //Prototype Methods (classical pattern)
 
 //Those methods are stored only once in memory
 //All instance of DrumElement() inherit from those methods
-
+DrumElement.prototype.init = function () {
+    //Set the audio property with the corresponding audio html element
+    this.audio = document.getElementById(this.triggeredKey);
+    console.log(this.audio);
+}
 //getClicked() => called when click event is triggered
 DrumElement.prototype.getClicked = function () {
     console.log(this);
@@ -85,12 +90,14 @@ function bindAudioElement(drums, elements) {
         $(drums[i]).html(elements[i].triggeredKey);
         //Append an audio html element to a .drum-pad element with an id 
         //corresponding to the inner text of its parent.
-        $("<audio></audio>")
+        let audio = $("<audio></audio>")
             .attr('id', elements[i].triggeredKey)
             .attr('src', elements[i].source)
             .appendTo(drums[i]);
-        //Add a click event listener to all the .drum-pad elements
-        //here we use bind() to bind this to the DrumElement instance in getClicked()  
+        //init the DrumElement
+        elements[i].init();
+        //Add a events listener to all the .drum-pad elements
+        //here we use bind() to bind this to the DrumElement instance in those methods  
         //by default with jQuery "this" in a handler is binded to the element triggered
         $(drums[i]).on("click", elements[i].getClicked.bind(elements[i]));
     }
