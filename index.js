@@ -5,11 +5,12 @@
 //When a .drum-pad is triggered, a string describing the associated audio clip is displayed as the inner text of the #display element
 
 //Function constructor of drum element (Classical Pattern, pre ES6)
-function DrumElement(source, triggeredKey, keyCode) {
-    this.source = source;
-    this.triggeredKey = triggeredKey;
-    this.keyCode = keyCode;
-    this.audio = {};
+function DrumElement(source, triggeredKey, keyCode, description) {
+    this.source = source; //string url
+    this.triggeredKey = triggeredKey; //string 
+    this.keyCode = keyCode; //number
+    this.description = description; //string
+    this.audio = {}; //Element() instance
 }
 
 //Prototype Methods (classical pattern)
@@ -22,11 +23,13 @@ DrumElement.prototype.init = function () {
 }
 //getClicked() => called when click event is triggered
 DrumElement.prototype.getClicked = function () {
+    displayDescription(this.description);
     //use Audio play() Method
     this.audio.play();
 }
 //getPressed() => called when click event is triggered
 DrumElement.prototype.getPressed = function () {
+    displayDescription(this.description);
     //use Audio play() Method
     this.audio.play();
 }
@@ -37,49 +40,62 @@ function getElements() {
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
             "A",
-            97
+            97,
+            "Heater 1"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3",
             "Z",
-            122
+            122,
+            "Heater 2"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
             "E",
-            101
+            101,
+            "Heater 3"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3",
             "Q",
-            113
+            113,
+            "Heater 4"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3",
             "S",
-            115
+            115,
+            "Clap"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3",
             "D",
-            100
+            100,
+            "Open HH"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3",
             "W",
-            119
+            119,
+            "Kick n' Hat"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3",
             "X",
-            120
+            120,
+            "Kick"
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3",
             "C",
-            99
+            99,
+            "Closed HH"
         )
     ]
+}
+
+function displayDescription(description) {
+    $("#description").html(description);
 }
 
 //A function that bind audio html element associated to a .drum-pad element
