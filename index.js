@@ -87,6 +87,7 @@ function bindAudioElement(drums, elements) {
         //corresponding to the inner text of its parent.
         $("<audio></audio>")
             .attr('id', elements[i].triggeredKey)
+            .attr('src', elements[i].source)
             .appendTo(drums[i]);
         //Add a click event listener to all the .drum-pad elements
         //here we use bind() to bind this to the DrumElement instance in getClicked()  
