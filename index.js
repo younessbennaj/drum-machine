@@ -4,13 +4,24 @@
 
 //When a .drum-pad is triggered, a string describing the associated audio clip is displayed as the inner text of the #display element
 
-//Function constructor of drum element
-function DrumElement(source, triggeredKey) {
+//Function constructor of drum element (Classical Pattern, pre ES6)
+function DrumElement(source, triggeredKey, keyCode) {
     this.source = source;
     this.triggeredKey = triggeredKey;
+    this.keyCode = keyCode;
 }
 
-DrumElement.prototype.getClicked = function (e) {
+//Prototype Methods (classical pattern)
+
+//Those methods are stored only once in memory
+//All instance of DrumElement() inherit from those methods
+
+//getClicked() => called when click event is triggered
+DrumElement.prototype.getClicked = function () {
+    console.log(this);
+}
+//getPressed() => called when click event is triggered
+DrumElement.prototype.getPressed = function () {
     console.log(this);
 }
 
@@ -19,49 +30,54 @@ function getElements() {
     return [
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
-            "A"
+            "A",
+            97
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3",
-            "Z"
+            "Z",
+            122
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
-            "E"
+            "E",
+            101
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3",
-            "Q"
+            "Q",
+            113
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3",
-            "S"
+            "S",
+            115
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3",
-            "D"
+            "D",
+            100
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3",
-            "W"
+            "W",
+            119
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3",
-            "X"
+            "X",
+            120
         ),
         new DrumElement(
             "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3",
-            "C"
+            "C",
+            99
         )
     ]
 }
-//A function that bind audio html element associated to a .drum-pad element
-function bindAudioElement() {
-    //get an array of DrumElement() object
-    var elements = getElements();
 
-    //get our drum pad elements
-    var drums = $(".drum-pad");
+//A function that bind audio html element associated to a .drum-pad element
+function bindAudioElement(drums, elements) {
 
     //for i from 0 to drums length
     for (var i = 0; i < drums.length; i++) {
@@ -77,10 +93,29 @@ function bindAudioElement() {
         //by default with jQuery "this" in a handler is binded to the element triggered
         $(drums[i]).on("click", elements[i].getClicked.bind(elements[i]));
     }
+
+}
+
+function handleKeyPress(elements) {
+    //Add a kepress event listener on the window
+    $(window).on("keypress", function (e) {
+        //Get the DrumElement() corresponding the the key pressed
+        var drumElement = elements.find(function (element) {
+            return e.keyCode === element.keyCode;
+        });
+        //Call the getPressed method that handle this event
+        //call call() method to bind this in getPressed() to that drum element
+        drumElement.getPressed.call(drumElement);
+    });
 }
 
 $(window).on("load", function () {
+    //get our drum pad elements
+    var drums = $(".drum-pad");
 
-    bindAudioElement();
+    //get an array of DrumElement() object
+    var elements = getElements();
 
+    bindAudioElement(drums, elements);
+    handleKeyPress(elements);
 });
