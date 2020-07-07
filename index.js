@@ -19,15 +19,16 @@ function DrumElement(source, triggeredKey, keyCode) {
 DrumElement.prototype.init = function () {
     //Set the audio property with the corresponding audio html element
     this.audio = document.getElementById(this.triggeredKey);
-    console.log(this.audio);
 }
 //getClicked() => called when click event is triggered
 DrumElement.prototype.getClicked = function () {
-    console.log(this);
+    //use Audio play() Method
+    this.audio.play();
 }
 //getPressed() => called when click event is triggered
 DrumElement.prototype.getPressed = function () {
-    console.log(this);
+    //use Audio play() Method
+    this.audio.play();
 }
 
 function getElements() {
@@ -113,7 +114,7 @@ function handleKeyPress(elements) {
         });
         //Call the getPressed method that handle this event
         //call call() method to bind this in getPressed() to that drum element
-        drumElement.getPressed.call(drumElement);
+        if (drumElement) drumElement.getPressed.call(drumElement);
     });
 }
 
