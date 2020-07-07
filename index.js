@@ -1,9 +1,3 @@
-//When I click on a .drum-pad element, the audio clip contained in its child audio element should be triggered.
-
-//When I press the trigger key associated with each .drum-pad...
-
-//When a .drum-pad is triggered, a string describing the associated audio clip is displayed as the inner text of the #display element
-
 //Function constructor of drum element (Classical Pattern, pre ES6)
 function DrumElement(source, triggeredKey, keyCode, description) {
     this.source = source; //string url
